@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhysLab</title>
+  <script src="js/Chart.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="./js/jquery.validate.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <link rel="stylesheet" href="css/uimini.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- <link rel="stylesheet" href="css/login2.css" /> -->
+  <script src="js/uimini.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="navbar">
+        <div class="container">
+          <div class="navbar-content"><a class="header-logo" href="index.html">PhysLab</a>
+            <div class="button-burger"><span class="line line-1"></span><span class="line line-2"></span><span
+                class="line line-3"></span></div>
+            <div class="navbar-list__wrapper">
+              <div class="navbar-list">
+                <div><span class="user_para"></span></div>
+                <!-- <li class="navbar-item"><a class="navbar-link" href="lab.html">Laboratory</a></li> -->
+                <button id="logout_btn" class="button button-default">Выйти</button>
+                <div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+    </header>
+    <div class="content-wrapper">
+      <section>
+        <div class="container">
+          <div class="container header">
+            <div class="ui-title-3">Лабораторная работа</div>
+            <button id="complete" class="button button--plain button-default">Завершить</button>
+          </div>
+          <div class="lab">
+            <div class="lab__chart">
+              <canvas id="canvas"></canvas>
+              <br>
+              <!-- <button id="randomizeData">Randomize Data</button>
+                <button id="addDataset">Add Dataset</button> -->
+                <div class="btns">
+                  <button id="removeDataset" class="button button--plain button-default">Очистить график</button>
+              <button id="removeData" class="button button--plain button-default">Стереть посл. точку</button>
+              <button id="saveCsv" class="button button--plain button-default">⬇ .csv</button>
+              <button id="savePng" class="button button--plain button-default">⬇ .png</button>
+                </div>
+              
+
+            </div>
+            <div class="lab__control">
+              <form id="form-freq">
+              <div class="form-item">
+
+                <label class="frequency-label" for="freq">Частота сигнала (Гц):</label>
+                <input id="freq" type="number" name="frequency" placeholder="Частота сигнала" value="500">
+                <!-- <div class="required">Password is required.</div>
+                <div class="email">Password must have at least 6 letters.</div> -->
+              </div>
+            </form>
+            <button id="addData" class="button button--round button-default">Сигнал </button><span class="loader hide"></span>
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
+  </div>
+  </div>
+
+
+  <script src="./js/index.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        var user = firebase.auth().currentUser;
+        var email_id = user.email;
+        // console.log(email_id);
+        $("user_para").text(email_id);
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+  <!-- SCRIPTS -->
+  <script src="js/mychart.js"></script>
+  <script src="js/lab.js"></script>
+</body>
+
+</html>

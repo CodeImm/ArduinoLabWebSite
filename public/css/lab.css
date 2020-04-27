@@ -1,0 +1,26 @@
+.loggedin-div {
+  width: 100%;
+  margin: 0px auto;
+  margin-top: 20px;
+  padding: 20px;
+  display: none;
+}
+
+.loggedin-div h3, #user_para, #logout_btn {
+  display: inline-block;
+}
+
+#logout_btn {
+  max-width: 150px;
+  margin-right: 20px;
+}
+
+.lab {
+	display: flex;
+}
+
+.lab__chart,
+.lab__control {
+	width: 50%;
+}
+

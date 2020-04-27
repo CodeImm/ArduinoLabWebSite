@@ -1,0 +1,145 @@
+.lab-item {
+  margin-bottom: 20px;
+}
+
+.lab-item:last-child {
+  margin-bottom: 0px;
+}
+
+.ui-label {
+  margin-right: 8px;
+}
+
+.lab-item__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.lab-item__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.lab-item__header .ui-checkbox-.ui-checkbox-wrapper {
+  margin-right: 8px;
+}
+
+.lab-item__header .ui-title-3 {
+  margin-bottom: 0;
+}
+
+#start_btn {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+/* Lab page css */
+.lab {
+  margin: 15px 0;
+  /* Отступы сверху и снизу */
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
+  padding: 1em;
+  /* flex-direction: column; */
+  align-content: space-between;
+  /* min-width: 800px; Минимальная ширина */
+  /* max-width: 1200px; Максимальная ширина */
+}
+
+.lab__chart {
+  width: 70%;
+  margin: 20px;
+}
+
+.lab__control{
+  /* border: 2px solid #cccccc; */
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.btns .button{
+  /* width: 200px; */
+  padding: 0.4em 0.3em;
+}
+
+
+@media screen and (max-width: 768px){
+  .lab__chart {
+    width: 100%;
+    /* margin: 20px; */
+  }
+  .lab{
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .lab__chart {
+    width: 100%;
+    /* margin: 20px; */
+  }
+  .lab{
+    flex-direction: column;
+  }
+}
+
+.lab input {
+  width: 180px;
+}
+.form-item .error {
+  /* display: none; */
+  margin-bottom: 8px;
+  font-size: 13.4px;
+  color: #fc5c65;
+}
+
+
+.form-item.errorInput .error {
+  display: block;
+}
+
+input.error {
+  border-color: #fc5c65;
+  animation: shake 0.3s;
+}
+
+.button-default.button--plain {
+  margin: 5px;
+}
+
+.header {
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  margin-left: 100px;
+}
+
+.info{
+  border: 1px solid;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+li {
+  list-style-type: decimal;
+}
+
+.lab-item__body{
+  padding: 50px;
+}
+
+.lab-item__link{
+  color: blue;
+}
+
+.lab-item__link:hover{
+  text-decoration: underline;
+}
+
+/* //loader */

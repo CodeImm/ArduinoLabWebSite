@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhysLab</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <link rel="stylesheet" href="css/uimini.css" />
+  <script src="js/uimini.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- <link rel="stylesheet" href="css/login2.css" /> -->
+  </script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="navbar">
+        <div class="container">
+          <div class="navbar-content"><a class="header-logo" href="index.html">PhysLab</a>
+            <div class="button-burger"><span class="line line-1"></span><span class="line line-2"></span><span
+                class="line line-3"></span></div>
+            <div class="navbar-list__wrapper">
+              <div class="navbar-list">
+                <div><span class="user_para"></span></div>
+                <!-- <li class="navbar-item"><a class="navbar-link" href="lab.html">Laboratory</a></li> -->
+                <button id="logout_btn" class="button button-default">Выйти</button>
+                <div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+    </header>
+    <div class="content-wrapper">
+      <!-- <section>
+        <div class="container">
+          <h1 class="ui-title-1">Laboratory works</h1>
+        </div>
+      </section> -->
+      <section>
+        <div class="container">
+          <div class="lab-list">
+            <div class="lab-item"">
+                    <div class=" ui-card ui-card--shadow">
+              <div class="lab-item__info">
+                <div class="lab-item__main-info"><span class="ui-label ui-label--light">Лабораторная работа</span></div>
+                
+              </div>
+              
+              <div class="lab-item__content">
+                <div class="lab-item__header"><span class="ui-title-3">Определение скорости звука в воздухе с помощью
+                    трубки Кундта</span></div>
+                    <button id="start_btn" class="button button--round button-primary button--disable">Начать</button>
+              </div>
+              <div class="lab-item__body">
+                <!-- <p class="ui-text-regular">Методические указания</p> -->
+                <p>Перед выполнением задания ознакомьтесь с теорией работы: <a class="lab-item__link" target="_blank" href="https://internat.msu.ru/media/uploads/2013/05/3.12-Определение-скорости-звука-методом-стоячих-волн-в-трубе.pdf">Методическое пособие.pdf</a></p>
+                <h3>Задание. Определение скорости звука</h3>
+                <ol type="1" value="1">
+                  <li>Изменяя частоту звукового генератора в пределах от 3000 Гц до 6800 Гц
+                     (рекомендованный шаг 100 Гц) фиксируйте значение относительной интенсивности сигнала и соответствующей частоты.</li>
+                     <br>
+                     <p class="info">Для того чтобы получить значение отн. интенсивности сигнала, введите в поле «Частота сигнала (Гц)» требуемую частоту и нажмите на кнопку «Сигнал». 
+                       Данные отобразятся на графике.
+                      По завершении работы сохраните график нажав на кнопку "⬇ .png".</p>
+                     <br>
+                  <li>Занесите в заранее подготовленную таблицу максимальные значения отн. интенсивности и соответствующие частоты, найденные в этом интервале. 
+                     Полученные последовательно значения 
+                    <img src="./images/f.png"><img>, где <img src="./images/f1.png"><img> соответствует наименьшей из зарегистрированных частот, а <img src="./images/fj.png"><img> –
+                     наибольшей в данном частотном диапазоне. </li>
+                  <li>Для всех пар соседних по возрастанию частот определите среднее значение разностей: 
+                    <br>
+                    <img src="./images/sum.png">.</li>
+                  <li>Исключите из рассмотрения «ложные максимумы, связанные с нелинейностью АЧХ измерительного тракта, если таковые имеются.</li>
+                  <li>Используя формулу <img src="./images/c.png"><img>,определите скорость звука в исследованном диапазоне частот. Длина трубы составляет <span><i>L</i> = 24 см.</span></li>
+                  <li>Найдите общую погрешность эксперимента.</li>
+                  <li>Сделайте выводы о проделанной работе.</li>
+                  </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
+  </div>
+  </div>
+
+
+  <script src="./js/index.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+      } else {
+        window.location.href = "login.html";
+      }
+    }); 
+    // console.log(new Date().getTime());
+  </script>
+  <script src="./js/start.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<html>
+
+<head>
+  <title>Foget Account</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="./js/jquery.validate.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <link rel="stylesheet" href="css/uimini.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <script src="js/uimini.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <header>
+        <div class="navbar">
+          <div class="container">
+            <div class="navbar-content"><a class="header-logo" href="index.html">PhysLab</a>
+              <div class="button-burger"><span class="line line-1"></span><span class="line line-2"></span><span
+                  class="line line-3"></span></div>
+              <div class="navbar-list__wrapper">
+                <ul class="navbar-list">
+                  <li class="navbar-item"><a class="navbar-link" href="login.html">Login</a></li>
+                  <li class="navbar-item"><a class="navbar-link" href="registration.html">Registration</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-wrapper">
+        <section>
+          <div class="container">
+            <div class="auth">
+              <div class="auth__form">
+                <span class="ui-title-2">Find your email</span>
+                <form id="form" class="main-div">
+                  <div class="form-item infoReset">
+                    <p>
+                      Please enter your Email address below and we send you information to recover your account.
+                    </p>
+                  </div>
+                  <div class="form-item">
+                    <input id="email_field" type="email" name="email" placeholder="Email">
+                    <!-- <div class="required">Field is required</div>
+                    <div class="email">Email is not correct</div> -->
+                  </div>
+                  <div class="form-item">
+                    <span class="info-reset"></span>
+                    <span class="info error"></span>
+                  </div>
+                  <div class="buttons-list">
+                    <button type="submit" id="resetPassword_btn" class="button button-primary">Reset Password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="./js/index.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+  <!-- <script src="./js/index.js"></script> -->
+  <!-- <script src="./js/signin.js"></script> -->
+  <script>
+    $('#form').validate({
+      rules: {
+        email: {
+          required: true,
+          email: true,
+        }
+      },
+      messages: {
+        // email: {
+        //   required: "Поле 'Email' обязательно к заполнению",
+        //   email: "Необходим формат адреса email"
+        // }
+      },
+      submitHandler: function () {
+        // e.preventDefault();
+        reset();
+      }
+    });
+
+    // $(function () {
+    $("input").change(function () {
+      $(".info").text("");
+    });
+    // });
+  </script>
+</body>
+
+</html>
