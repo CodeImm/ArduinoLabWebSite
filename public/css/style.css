@@ -32,6 +32,7 @@
 }
 
 #start_btn {
+  margin-top: 50px;
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);
@@ -140,6 +141,15 @@ li {
 
 .lab-item__link:hover{
   text-decoration: underline;
+}
+
+.doc{
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+}
+.info-s{
+  margin-top: 20px;
 }
 
 /* //loader */

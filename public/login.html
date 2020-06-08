@@ -4,12 +4,23 @@
   <title>Login</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        window.location.href = "index.html";
+      }
+    });
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="./js/jquery.validate.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  
   <link rel="stylesheet" href="css/uimini.css" />
   <link rel="stylesheet" href="css/login.css" />
   <script src="js/uimini.js"></script>
+  
 </head>
 
 <body>
@@ -73,14 +84,7 @@
   </div>
 
   <script src="./js/index.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        window.location.href = "index.html";
-      }
-    });
-  </script>
+  
   <!-- <script src="./js/index.js"></script> -->
   <!-- <script src="./js/signin.js"></script> -->
   <script>

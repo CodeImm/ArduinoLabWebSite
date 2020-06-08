@@ -10,6 +10,15 @@
   <link rel="stylesheet" href="css/uimini.css" />
   <link rel="stylesheet" href="css/login.css" />
   <script src="js/uimini.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        window.location.href = "index.html";
+      }
+    });
+  </script>
 </head>
 
 <body>

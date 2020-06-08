@@ -1,18 +1,4 @@
-// Configuration
-var config = {
-  apiKey: 'AIzaSyAR5lKnHi2Jh7FnLTP4Bs5J_nXx9XLsS-0',
-  authDomain: 'phys-labs.firebaseapp.com',
-  databaseURL: 'https://phys-labs.firebaseio.com',
-  projectId: 'phys-labs',
-  storageBucket: 'phys-labs.appspot.com',
-  messagingSenderId: '260360388138',
-  appId: '1:260360388138:web:b5af7c2d58c6913d5f4d53'
-}
 
-// Firebase Initialize
-firebase.initializeApp(config)
-
-firebase.auth.Auth.Persistence.LOCAL;
 
 
 
@@ -54,79 +40,90 @@ function logup() {
   };
 }
 
-  const statusRef = firebase.database().ref('status');
-  statusRef.on('value', function (snapshot) {
-    var currentUser = snapshot.child("currentUser").val();
-    if(currentUser == firebase.auth().currentUser.uid){
-        $("#start_btn").removeClass("button--disable");
-        $("#start_btn").html("Продолжить");
-    } else if (currentUser == "null"){
-        $("#start_btn").removeClass("button--disable");
-        $("#start_btn").html("Начать");
-    } else {
-        $("#start_btn").addClass("button--disable");
-        $("#start_btn").html("Работа занята");
-    }
-  });
 
-  $("#logout_btn").click(function () {
-    firebase.auth().signOut();
-  })
+const statusRef = firebase.database().ref('status');
+statusRef.on('value', function (snapshot) {
+  var currentUser = snapshot.child("currentUser").val();
+  if (currentUser == firebase.auth().currentUser.uid) {
+    $("#start_btn").removeClass("button--disable");
+    $("#start_btn").html("Продолжить");
+  } else if (currentUser == "null") {
+    $("#start_btn").removeClass("button--disable");
+    $("#start_btn").html("Начать");
+  } else {
+    $("#start_btn").addClass("button--disable");
+    $("#start_btn").html("Работа занята");
+  }
+});
 
-  var menuShow = false;
-  var submitStatus = false;
+$("#logout_btn").click(function () {
+  console.log("@##");
+  firebase.auth().signOut();
+  // window.location.href = "login.html";
+});
+
+// firebase.auth().onAuthStateChanged(function (user) {
+//   if (user) {
+//     // User is signed in.
+//   } else {
+//     window.location.href = "login.html";
+//   }
+// });
+
+var menuShow = false;
+var submitStatus = false;
+// console.log(menuShow);
+$(".button-burger").click(function () {
+  menuShow = !menuShow;
   // console.log(menuShow);
-  $(".button-burger").click(function () {
-    menuShow = !menuShow;
-    // console.log(menuShow);
-    if (menuShow === true) {
-      $('.button-burger').addClass('active');
-      $('.navbar-list__wrapper').addClass('active');
-    } else {
-      $('.button-burger').removeClass('active');
-      $('.navbar-list__wrapper').removeClass('active');
+  if (menuShow === true) {
+    $('.button-burger').addClass('active');
+    $('.navbar-list__wrapper').addClass('active');
+  } else {
+    $('.button-burger').removeClass('active');
+    $('.navbar-list__wrapper').removeClass('active');
+  }
+})
+$('navbar-item').click(function (menuShow) {
+  menuShow = false;
+})
+
+$("#start_btn").click(function (user) {
+  var currentUser = "";
+  var chartId = "" + new Date().getTime();
+  const statusRef = firebase.database().ref('status');
+  statusRef.child("currentUser").on("value", function (snapshot) {
+    currentUser = snapshot.val();
+    // console.log(currentUser);
+    const user = firebase.auth().currentUser.uid;
+    if (currentUser == "null") {
+      statusRef.update({
+        currentUser: user,
+        chartId: chartId
+      })
+      window.location.href = "lab.html";
+    } else if (currentUser === user) {
+      window.location.href = "lab.html";
     }
-  })
-  $('navbar-item').click(function (menuShow) {
-    menuShow = false;
-  })
-
-  $("#start_btn").click(function (user) {
-    var currentUser = "";
-    var chartId = "" + new Date().getTime();
-    const statusRef = firebase.database().ref('status');
-    statusRef.child("currentUser").on("value", function (snapshot) {
-      currentUser = snapshot.val();
-      // console.log(currentUser);
-      const user = firebase.auth().currentUser.uid;
-      if (currentUser == "null") {
-        statusRef.update({
-          currentUser: user,
-          chartId: chartId
-        })
-        window.location.href = "lab.html";
-      } else if (currentUser === user) {
-        window.location.href = "lab.html";
-      }
-    }, function (errorObject) {
-      console.log("the read failed: " + errorObject.code);
-    });
+  }, function (errorObject) {
+    console.log("the read failed: " + errorObject.code);
   });
+});
 
-  function reset() {
-    var auth = firebase.auth();
-    var email = $("#email_field").val();
-    
-    if(email !=""){
-      auth.sendPasswordResetEmail(email).then(function() {
+function reset() {
+  var auth = firebase.auth();
+  var email = $("#email_field").val();
+
+  if (email != "") {
+    auth.sendPasswordResetEmail(email).then(function () {
         $(".info-reset").text("Email has been  sent to you. Please check and verify.");
       })
-      .catch(function(error){
+      .catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
 
         $(".info").text("Error: " + errorMessage);
       });
-    }
-
   }
+
+}
