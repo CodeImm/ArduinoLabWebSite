@@ -1,95 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <meta name="theme-color" content="#000000" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhysLab</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-  <link rel="stylesheet" href="css/uimini.css" />
-  <script src="js/uimini.js"></script>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/config.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-      } else {
-        window.location.href = "login.html";
-      }
-    }); 
-    // console.log(new Date().getTime());
-  </script>
-  <!-- <link rel="stylesheet" href="css/login2.css" /> -->
-</head>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>My page</title>
+    <!-- Fonts to support Material Design -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-<body>
-  <div class="wrapper">
-    <header>
-      <div class="navbar">
-        <div class="container">
-          <div class="navbar-content"><a class="header-logo" href="index.html">PhysLab</a>
-            <div class="button-burger"><span class="line line-1"></span><span class="line line-2"></span><span
-                class="line line-3"></span></div>
-            <div class="navbar-list__wrapper">
-              <div class="navbar-list">
-                <div><span class="user_para"></span></div>
-                <!-- <li class="navbar-item"><a class="navbar-link" href="lab.html">Laboratory</a></li> -->
-                <button id="logout_btn" class="button button-default">Выйти</button>
-                <div>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-                </div>
-              </div>
-            </div>
-          </div>
-    </header>
-    <div class="content-wrapper">
-      <!-- <section>
-        <div class="container">
-          <h1 class="ui-title-1">Laboratory works</h1>
-        </div>
-      </section> -->
-      <section>
-        <div class="container">
-          <div class="lab-list">
-            <div class="lab-item"">
-                    <div class=" ui-card ui-card--shadow">
-              <div class="lab-item__info">
-                <div class="lab-item__main-info"><span class="ui-label ui-label--light">Лабораторная работа</span></div>
-                
-              </div>
-              
-              <div class="lab-item__content">
-                <div class="lab-item__header"><span class="ui-title-3">Определение скорости звука в воздухе методом
-                  стоячих волн в трубе</span></div>
-                    
-              
-              <p class="info-s">Перед началом выполнения работы, пожалуйста, ознакомьтесь с методическими указаниями:</p>
-              <iframe class="doc" src="https://drive.google.com/file/d/1RRJoTvCfuM9Y6z856oNmzSv6zZvRXjc8/preview" width="700" height="500"></iframe>
-              <!-- <iframe src="https://docs.google.com/document/d/e/2PACX-1vS4QKibvSoDdE7DCAipXnJNbJqhA-SRiAeVxbOef6A1bWQXJ4oLc4Bv2_b2lTVyU87Jw6Cvs0JNvb_k/pub?embedded=true" width="700" height="500" style="border: none;"></iframe> -->
-              <button id="start_btn" class="button button--round button-primary button--disable">Начать</button>
-            </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    </section>
-  </div>
-  </div>
-  <script src="./js/index.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-      } else {
-        window.location.href = "login.html";
-      }
-    }); 
-    // console.log(new Date().getTime());
-  </script>
-  
- 
-</body>
-
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>
