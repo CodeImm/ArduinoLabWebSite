@@ -22,7 +22,7 @@ function AuthApp({user}){
       {/*<Switch>*/}
         <UserContext.Provider value={user}>
           {/*<Route path="/:listId" component={ListPage}/>*/}
-          <Route path="/" component={HomePage}/>
+          <Route exact path="/home" component={HomePage}/>
         </UserContext.Provider>
       {/*</Switch>*/}
     </BrowserRouter>
@@ -40,16 +40,3 @@ function UnAuthApp(){
         </BrowserRouter>
     )
 }
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }

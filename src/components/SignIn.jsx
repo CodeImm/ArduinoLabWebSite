@@ -124,7 +124,7 @@ export default function SignIn() {
                             />
 
                             <FormControlLabel
-                                control={<Field component={Checkbox} color="primary" name="rememberMe"/>}
+                                control={<Field component={Checkbox} type="checkbox" color="primary" name="rememberMe"/>}
                                 label="Remember me"
                             />
                             {isSubmitting && <LinearProgress/>}
