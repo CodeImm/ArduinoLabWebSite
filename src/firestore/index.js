@@ -20,8 +20,10 @@ const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
 
-export async function signInWithEmailAndPassword(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+export async function signInWithEmailAndPassword(email, password, rememberMe) {
+     await firebase.auth().setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL: firebase.auth.Auth.Persistence.SESSION).then(()=>{
+        return firebase.auth().signInWithEmailAndPassword(email, password);
+    })
     // window.location.reload();
 }
 
@@ -35,9 +37,6 @@ export async function createUserWithEmailAndPassword(email, password, firstName,
                     lastName: lastName,
                     facultyId: faculty.id,
                     groupId: group.id
-                })
-                .then(() =>{
-                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
                 })
         });
     // window.location.reload();

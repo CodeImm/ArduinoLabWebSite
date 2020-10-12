@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {TextField,} from 'formik-material-ui';
+import {Checkbox, TextField,} from 'formik-material-ui';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -68,6 +68,7 @@ export default function SignIn() {
                     initialValues={{
                         email: '',
                         password: '',
+                        rememberMe: false
                     }}
                     validate={values => {
                         const errors = {};
@@ -79,18 +80,18 @@ export default function SignIn() {
                         return errors;
                     }}
                     onSubmit={(values, {setSubmitting}) => {
-                        const {email, password} = values;
-                        setTimeout(() => {
-                            setSubmitting(false);
-                            alert(JSON.stringify(values, null, 2));
-                        }, 500);
-
-                        // db.signInWithEmailAndPassword(email, password).catch((error) => {
-                        //     console.log(error.code);
-                        //     console.log(error.message);
+                        const {email, password, rememberMe} = values;
+                        // setTimeout(() => {
                         //     setSubmitting(false);
-                        //     setFirebaseError(error.message);
-                        // });
+                        //     alert(JSON.stringify(values, null, 2));
+                        // }, 500);
+
+                        db.signInWithEmailAndPassword(email, password, rememberMe).catch((error) => {
+                            console.log(error.code);
+                            console.log(error.message);
+                            setSubmitting(false);
+                            setFirebaseError(error.message);
+                        });
 
                     }}
                 >
@@ -123,7 +124,7 @@ export default function SignIn() {
                             />
 
                             <FormControlLabel
-                                control={<Checkbox value="remember" color="primary"/>}
+                                control={<Field component={Checkbox} color="primary" name="rememberMe"/>}
                                 label="Remember me"
                             />
                             {isSubmitting && <LinearProgress/>}
