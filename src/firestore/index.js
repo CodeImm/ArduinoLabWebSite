@@ -16,14 +16,35 @@ const firebaseConfig = {
 const firebaseApp = !firebase.apps.length
     ? firebase.initializeApp(firebaseConfig)
     : firebase.app();
-// firebase.auth.Auth.Persistence.LOCAL;
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
 
-export async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider)
+export async function signInWithEmailAndPassword(email, password) {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+    // window.location.reload();
+}
+
+export async function createUserWithEmailAndPassword(email, password, firstName, lastName, faculty, group) {
+    return await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(registeredUser => {
+            db.collection('usersCollection')
+                .add({
+                    uid: registeredUser.user.uid,
+                    firstName: firstName,
+                    lastName: lastName,
+                    facultyId: faculty.id,
+                    groupId: group.id
+                })
+                .then(() =>{
+                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                })
+        });
+    // window.location.reload();
+}
+
+export async function resetPassword(emailAddress) {
+    return auth.sendPasswordResetEmail(emailAddress);
     // window.location.reload();
 }
 

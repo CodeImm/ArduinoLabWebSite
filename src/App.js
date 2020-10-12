@@ -1,8 +1,11 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import SignIn from './components/SignIn';
 import Loading from './components/shared/Loading';
 import useAuth from './hooks/useAuth';
+import HomePage from "./pages/HomePage";
+import SignUp from "./components/SignUp";
+import Recovery from "./components/Recovery";
 
 export const UserContext = React.createContext();
 
@@ -19,7 +22,7 @@ function AuthApp({user}){
       {/*<Switch>*/}
         <UserContext.Provider value={user}>
           {/*<Route path="/:listId" component={ListPage}/>*/}
-          {/*<Route path="/" component={HomePage}/>*/}
+          <Route path="/" component={HomePage}/>
         </UserContext.Provider>
       {/*</Switch>*/}
     </BrowserRouter>
@@ -27,7 +30,15 @@ function AuthApp({user}){
 }
 
 function UnAuthApp(){
-    return <SignIn />;
+    return (
+        <BrowserRouter>
+            {/*<Switch>*/}
+                <Route path="/signup" component={SignUp}/>
+                <Route path="/signin" component={SignIn}/>
+                <Route path="/recovery" component={Recovery}/>
+            {/*</Switch>*/}
+        </BrowserRouter>
+    )
 }
 
 // function Copyright() {
