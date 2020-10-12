@@ -8,7 +8,7 @@ function useAuth() {
     React.useEffect(()=> {
         return db.checkAuth(user => {
             setLoading(false);
-            setUser(user)
+            user ? setUser(user) : setUser(null);
         }, []);
     })
 

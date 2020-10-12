@@ -1,13 +1,7 @@
 import React from 'react';
-import * as db from "../firestore";
-import Navbar from "../components/shared/Navbar";
-import Header from "../components/shared/Header";
-import {UserContext} from "../App";
-import CardExp from "../components/CardExp";
 import CardExp2 from "../components/CardExp2";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
+import {UserContext} from "../App";
 
 const cardsExp = [
     {
@@ -22,11 +16,7 @@ export default function HomePage() {
     const [cards] = cardsExp;
     return (
         <React.Fragment>
-            <CssBaseline />
-            <Container maxWidth="lg">
-                <Header />
-                <main>
-                    {/*<MainFeaturedPost post={mainFeaturedPost} />*/}
+                                {/*<MainFeaturedPost post={mainFeaturedPost} />*/}
                     <Grid >
                         {cardsExp.map((card) => (
                             <CardExp2 key={card.title} title={card.title} description={card.description} />
@@ -41,9 +31,6 @@ export default function HomePage() {
                     {/*        social={sidebar.social}*/}
                     {/*    />*/}
                     {/*</Grid>*/}
-                </main>
-            </Container>
-            {/*<Footer title="Footer" description="Something here to give the footer a purpose!" />*/}
         </React.Fragment>
     );
 }

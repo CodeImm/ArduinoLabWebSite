@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {Checkbox, TextField,} from 'formik-material-ui';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
@@ -16,19 +15,6 @@ import {Field, Form, Formik} from 'formik';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import * as db from "../firestore";
 import Box from "@material-ui/core/Box";
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                PhysLab
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -124,7 +110,8 @@ export default function SignIn() {
                             />
 
                             <FormControlLabel
-                                control={<Field component={Checkbox} type="checkbox" color="primary" name="rememberMe"/>}
+                                control={<Field component={Checkbox} type="checkbox" color="primary"
+                                                name="rememberMe"/>}
                                 label="Remember me"
                             />
                             {isSubmitting && <LinearProgress/>}
@@ -155,9 +142,6 @@ export default function SignIn() {
                     )}
                 </Formik>
             </div>
-            <Box mt={5}>
-                <Copyright/>
-            </Box>
         </Container>
     );
 }
