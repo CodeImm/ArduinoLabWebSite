@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const [firebaseError, setFirebaseError] = React.useState(null);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -93,7 +94,7 @@ export default function SignUp() {
                     }}
                 >
                     {({submitForm, isSubmitting, touched, errors, values}) => (
-                        <MyForm />
+                        <MyForm firebaseError={firebaseError}/>
                     )}
                 </Formik>
             </div>
@@ -101,9 +102,9 @@ export default function SignUp() {
     );
 }
 
-export function MyForm() {
+export function MyForm(props) {
     const classes = useStyles();
-    const [firebaseError, setFirebaseError] = React.useState(null);
+
     const [facultiesData, setFacultiesData] = React.useState([]);
     const [groupsData, setGroupsData] = React.useState([]);
     const [groupsAccordingToSelectedFaculty, setGroupsAccordingToSelectedFaculty] = React.useState([]);
@@ -135,7 +136,7 @@ export function MyForm() {
 
         const groupsData = snapshot.docs.map(doc => {
             return {id: doc.id, groups: doc.data().groups};//.map(group => group.number)};
-        });
+        })
 
         console.log(Array.from(facultiesData));
         console.log(Array.from(groupsData));
@@ -188,7 +189,8 @@ export function MyForm() {
                                 helperText={
                                     touched['autocomplete'] && errors['autocomplete']
                                 }
-                                label="Autocomplete"
+                                required
+                                label="Faculty"
                                 variant="outlined"
                             />
                         )}
@@ -212,7 +214,8 @@ export function MyForm() {
                                 helperText={
                                     touched['autocomplete'] && errors['autocomplete']
                                 }
-                                label="Autocomplete"
+                                required
+                                label="Group"
                                 variant="outlined"
                             />
                         )}
@@ -254,7 +257,7 @@ export function MyForm() {
             {/*    label="Remember me"*/}
             {/*/>*/}
             {isSubmitting && <LinearProgress/>}
-            {firebaseError && <Typography color="error">{firebaseError}</Typography>}
+            {props.firebaseError && <Typography color="error">{props.firebaseError}</Typography>}
             <Button
                 type="submit"
                 fullWidth

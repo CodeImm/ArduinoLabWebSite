@@ -26,8 +26,8 @@ export async function createUserWithEmailAndPassword(email, password, firstName,
                     uid: registeredUser.user.uid,
                     firstName: firstName,
                     lastName: lastName,
-                    facultyId: faculty.id,
-                    groupId: group.id
+                    facultyInfo: faculty,
+                    groupInfo: group
                 })
         });
     // window.location.reload();
