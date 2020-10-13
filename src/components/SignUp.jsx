@@ -20,6 +20,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 // import {TextField} from "formik-material-ui";
 
 import {db} from "../firestore/index";
+import {createUserWithEmailAndPassword} from "../firestore";
 // import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,18 +79,18 @@ export default function SignUp() {
                         return errors;
                     }}
                     onSubmit={(values, {setSubmitting}) => {
-                        const {email, password} = values;
+                        const {firstName, lastName, faculty, group, email, password} = values;
                         setTimeout(() => {
-                            setSubmitting(false);
+                            // setSubmitting(false);
                             alert(JSON.stringify(values, null, 2));
                         }, 500);
-
-                        // db.createUserWithEmailAndPassword(email, password).catch((error) => {
-                        //     console.log(error.code);
-                        //     console.log(error.message);
-                        //     setSubmitting(false);
-                        //     setFirebaseError(error.message);
-                        // });
+                        console.log(values);
+                        createUserWithEmailAndPassword(firstName, lastName, faculty, group, email, password).catch((error) => {
+                            console.log(error.code);
+                            console.log(error.message);
+                            setSubmitting(false);
+                            setFirebaseError(error.message);
+                        });
 
                     }}
                 >

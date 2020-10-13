@@ -18,16 +18,16 @@ export async function signInWithEmailAndPassword(email, password, rememberMe) {
     // window.location.reload();
 }
 
-export async function createUserWithEmailAndPassword(email, password, firstName, lastName, faculty, group) {
+export async function createUserWithEmailAndPassword(fname, lname, faculty, group, email, password) {
+    console.log(email + " " + fname + " " + lname);
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(registeredUser => {
-            db.collection('usersCollection')
-                .add({
-                    uid: registeredUser.user.uid,
-                    firstName: firstName,
-                    lastName: lastName,
-                    facultyInfo: faculty,
-                    groupInfo: group
+            db.collection('usersCollection').doc(registeredUser.user.uid)
+                .set({
+                    firstName: fname,
+                    lastName: lname,
+                    facultyInfo: {...faculty},
+                    groupInfo: {...group}
                 })
         });
     // window.location.reload();
