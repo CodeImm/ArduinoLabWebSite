@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 export default function HomePage() {
-    const {user} = React.useContext(FirebaseContext);
+    const {user, firebase} = React.useContext(FirebaseContext);
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
 

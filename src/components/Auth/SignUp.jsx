@@ -128,7 +128,7 @@ export function MyForm(props) {
     }, [values.faculty, facultiesData])
 
     function getFacultiesData() {
-        firebase.db.collection('facultiesData').onSnapshot(handleSnapshot);
+        firebase.firestore.collection('facultiesData').onSnapshot(handleSnapshot);
     }
 
     function handleSnapshot(snapshot) {

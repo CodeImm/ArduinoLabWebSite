@@ -2,14 +2,18 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import "firebase/database";
 import firebaseConfig from "./config";
 
 const firebaseApp = !firebase.apps.length
     ? firebase.initializeApp(firebaseConfig)
     : firebase.app();
-export const db = firebaseApp.firestore();
+export const firestore = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
+export const database = firebaseApp.database();
+
+const labStatusRef = database.ref('status');
 
 export async function signInWithEmailAndPassword(email, password, rememberMe) {
     await firebase.auth().setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL: firebase.auth.Auth.Persistence.SESSION).then(()=>{
@@ -22,7 +26,7 @@ export async function createUserWithEmailAndPassword(fname, lname, faculty, grou
     console.log(email + " " + fname + " " + lname);
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(registeredUser => {
-            db.collection('usersCollection').doc(registeredUser.user.uid)
+            firestore.collection('usersCollection').doc(registeredUser.user.uid)
                 .set({
                     firstName: fname,
                     lastName: lname,
@@ -40,6 +44,10 @@ export async function resetPassword(emailAddress) {
 
 export function checkAuth(cb) {
     return auth.onAuthStateChanged(cb);
+}
+
+export function checkLabState(cb) {
+    return labStatusRef.on('value', (cb));
 }
 
 export async function logOut() {
