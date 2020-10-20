@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Field, Form, Formik} from 'formik';
 import LinearProgress from "@material-ui/core/LinearProgress";
-import * as db from "../firestore";
+import firebase from "../../firebase";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
@@ -72,7 +72,7 @@ export default function SignIn() {
                         //     alert(JSON.stringify(values, null, 2));
                         // }, 500);
 
-                        db.signInWithEmailAndPassword(email, password, rememberMe).catch((error) => {
+                        firebase.signInWithEmailAndPassword(email, password, rememberMe).catch((error) => {
                             console.log(error.code);
                             console.log(error.message);
                             setSubmitting(false);

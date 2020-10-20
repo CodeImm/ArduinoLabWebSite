@@ -1,7 +1,7 @@
 import React from 'react';
 import CardExp2 from "../components/CardExp2";
 import Grid from "@material-ui/core/Grid";
-import {UserContext} from "../App";
+import FirebaseContext from "../firebase/context";
 
 const cardsExp = [
     {
@@ -11,7 +11,7 @@ const cardsExp = [
 ]
 
 export default function HomePage() {
-    const user = React.useContext(UserContext)
+    const {user} = React.useContext(FirebaseContext);
 
     const [cards] = cardsExp;
     return (

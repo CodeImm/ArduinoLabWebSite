@@ -12,7 +12,7 @@ const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
 
 export async function signInWithEmailAndPassword(email, password, rememberMe) {
-     await firebase.auth().setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL: firebase.auth.Auth.Persistence.SESSION).then(()=>{
+    await firebase.auth().setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL: firebase.auth.Auth.Persistence.SESSION).then(()=>{
         return firebase.auth().signInWithEmailAndPassword(email, password);
     })
     // window.location.reload();
@@ -43,6 +43,6 @@ export function checkAuth(cb) {
 }
 
 export async function logOut() {
-    await auth.signOut();
+    return await auth.signOut();
     // window.location.reload();
 }

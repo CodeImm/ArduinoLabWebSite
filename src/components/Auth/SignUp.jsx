@@ -3,11 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {TextField} from 'formik-material-ui';
-import {
-    Autocomplete,
-    ToggleButtonGroup,
-    AutocompleteRenderInputParams,
-} from 'formik-material-ui-lab';
+import {Autocomplete,} from 'formik-material-ui-lab';
 import MuiTextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
@@ -15,12 +11,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Field, Form, Formik, FormikContext, useFormikContext} from 'formik';
+import {Field, Form, Formik, useFormikContext} from 'formik';
 import LinearProgress from "@material-ui/core/LinearProgress";
+import firebase from "../../firebase";
 // import {TextField} from "formik-material-ui";
-
-import {db} from "../firestore/index";
-import {createUserWithEmailAndPassword} from "../firestore";
 // import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,7 +79,7 @@ export default function SignUp() {
                             alert(JSON.stringify(values, null, 2));
                         }, 500);
                         console.log(values);
-                        createUserWithEmailAndPassword(firstName, lastName, faculty, group, email, password).catch((error) => {
+                        firebase.createUserWithEmailAndPassword(firstName, lastName, faculty, group, email, password).catch((error) => {
                             console.log(error.code);
                             console.log(error.message);
                             setSubmitting(false);
@@ -124,10 +118,10 @@ export function MyForm(props) {
                 console.log(groupsAccordingToSelectedFaculty);
             }
         })
-    }, [values, facultiesData])
+    }, [values.faculty, facultiesData])
 
     function getFacultiesData() {
-        db.collection('facultiesData').onSnapshot(handleSnapshot);
+        firebase.db.collection('facultiesData').onSnapshot(handleSnapshot);
     }
 
     function handleSnapshot(snapshot) {

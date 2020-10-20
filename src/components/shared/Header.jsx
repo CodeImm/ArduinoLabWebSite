@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {logOut} from "../../firestore";
+import firebase from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -57,7 +57,7 @@ export default function Header() {
     const classes = useStyles();
 
     const handleLogOutClick = () => {
-        logOut();
+        firebase.logOut();
     }
 
     return (
@@ -69,7 +69,7 @@ export default function Header() {
                         PhysLab
                     </Typography>
                     <nav>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+                        <Link variant="button" color="textPrimary" href="/home" className={classes.link}>
                             Home
                         </Link>
                         <Link variant="button" color="textPrimary" href="#" className={classes.link}>
@@ -88,9 +88,11 @@ export default function Header() {
                             Support
                         </Link>
                     </nav>
+                    {/*{(!user) &&*/}
                     <Button onClick={handleLogOutClick} color="primary" variant="outlined" className={classes.link}>
                         Logout
                     </Button>
+                    {/*}*/}
                 </Toolbar>
             </AppBar>
         </React.Fragment>

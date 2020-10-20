@@ -1,12 +1,12 @@
 import React from "react";
-import * as db from "../firestore";
+import firebase from "../firebase";
 
 function useAuth() {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(()=> {
-        return db.checkAuth(user => {
+        return firebase.checkAuth(user => {
             setLoading(false);
             user ? setUser(user) : setUser(null);
         }, []);
