@@ -14,6 +14,8 @@ import Container from '@material-ui/core/Container';
 import {Field, Form, Formik, useFormikContext} from 'formik';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import firebase from "../../firebase";
+import {Redirect} from "react-router-dom";
+import {FirebaseContext} from "../../firebase";
 // import {TextField} from "formik-material-ui";
 // import TextField from "@material-ui/core/TextField";
 
@@ -43,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     const classes = useStyles();
     const [firebaseError, setFirebaseError] = React.useState(null);
+    const {user} = React.useContext(FirebaseContext);
+
+    if (user) {
+        return <Redirect from="/login" to="/"/>
+    }
 
     return (
         <Container component="main" maxWidth="xs">

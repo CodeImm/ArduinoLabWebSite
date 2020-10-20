@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import firebase from "../../firebase";
+import firebase, {FirebaseContext} from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -55,9 +56,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
     const classes = useStyles();
+    const {user} = React.useContext(FirebaseContext);
+    const history = useHistory();
 
     const handleLogOutClick = () => {
         firebase.logOut();
+    }
+
+    const handleLoginClick = () => {
+        history.push("/signin");
     }
 
     return (
@@ -88,11 +95,13 @@ export default function Header() {
                             Support
                         </Link>
                     </nav>
-                    {/*{(!user) &&*/}
-                    <Button onClick={handleLogOutClick} color="primary" variant="outlined" className={classes.link}>
-                        Logout
-                    </Button>
-                    {/*}*/}
+                    {user ?
+                        <Button onClick={handleLogOutClick} color="primary" variant="outlined" className={classes.link}>
+                            Logout
+                        </Button>
+                        :
+                        <Button onClick={handleLoginClick} color="primary">Login</Button>
+                    }
                 </Toolbar>
             </AppBar>
         </React.Fragment>
