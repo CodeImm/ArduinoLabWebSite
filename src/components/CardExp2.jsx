@@ -10,10 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import useStatus from "../hooks/useStatus";
-import useAuth from "../hooks/useAuth";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import blue from "@material-ui/core/colors/blue";
-import FirebaseContext from "../firebase";
+import {FirebaseContext} from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
         card: {
