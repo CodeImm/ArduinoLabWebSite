@@ -95,39 +95,9 @@ export default function CardExp2(props) {
     }
     // debugger;
     return (
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={8}>
             <CardActionArea component="a" href="#">
                 <Card className={classes.card}>
-                    <div className={classes.cardDetails}>
-                        <CardContent>
-                            <Typography component="h2" variant="h5">
-                                {props.title}
-                            </Typography>
-                            <Typography variant="subtitle1" paragraph>
-                                {props.description}
-                            </Typography>
-                            <CardActions className={classes.actions}>
-                                <Button size="small" color="primary">
-                                    Theory
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Apparatus
-                                </Button>
-                                <div className={classes.wrapper}>
-                                    <Button onClick={handleStartBtnClick} size="small" color="primary" disabled={loading}>
-                                        {!loading &&
-                                        (usersQueue &&
-                                        user &&
-                                        usersQueue.some(element => element === user.uid)
-                                            ? 'Continue'
-                                            : 'Run experiment')
-                                        }
-                                    </Button>
-                                    {loading && <CircularProgress size={24} className={classes.buttonProgress}/>}
-                                </div>
-                            </CardActions>
-                        </CardContent>
-                    </div>
                     <Hidden xsDown>
                         <CardMedia
                             component="img"
@@ -138,6 +108,37 @@ export default function CardExp2(props) {
                         />
                         {/*// title={post.imageTitle} />*/}
                     </Hidden>
+                    <div className={classes.cardDetails}>
+                        <CardContent>
+                            <Typography component="h2" variant="h5">
+                                {props.title}
+                            </Typography>
+                            <Typography variant="subtitle1" paragraph>
+                                {props.description}
+                            </Typography>
+                        </CardContent>
+                        <CardActions className={classes.actions}>
+                            <Button size="small" color="primary">
+                                Theory
+                            </Button>
+                            <Button size="small" color="primary">
+                                Apparatus
+                            </Button>
+                            <div className={classes.wrapper}>
+                                <Button onClick={handleStartBtnClick} size="small" color="primary" disabled={loading}>
+                                    {!loading &&
+                                    (usersQueue &&
+                                    user &&
+                                    usersQueue.some(element => element === user.uid)
+                                        ? 'Continue'
+                                        : 'Run experiment')
+                                    }
+                                </Button>
+                                {loading && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                            </div>
+                        </CardActions>
+                    </div>
+
                 </Card>
             </CardActionArea>
         </Grid>
