@@ -12,6 +12,7 @@ import firebase, {FirebaseContext} from "./firebase";
 import SignUp from "./components/Auth/SignUp";
 import SignIn from "./components/Auth/SignIn";
 import Recovery from "./components/Auth/Recovery";
+import LabPage from "./pages/LabPage";
 
 export default function App() {
     const {user, loading} = useAuth();
@@ -32,6 +33,7 @@ export default function App() {
                             <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/signin" component={SignIn}/>
                             <Route exact path="/recovery" component={Recovery}/>
+                            <Route exact path="/lab-1" component={LabPage}/>
                         </Switch>
                     </main>
                     {/*<Footer title="Footer" description="Something here to give the footer a purpose!" />*/}
