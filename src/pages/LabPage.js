@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function LabPage() {
-    const {user, firebase} = React.useContext(FirebaseContext);
+    const {firebase, user} = React.useContext(FirebaseContext);
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
 
@@ -42,7 +42,7 @@ export default function LabPage() {
                 <Grid container className={classes.mainGrid} spacing={spacing} justify="center">
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={fixedHeightPaper}>
-                            <Chart />
+                            <Chart/>
                         </Paper>
                     </Grid>
                     {/* Control */}

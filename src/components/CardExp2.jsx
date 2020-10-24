@@ -13,6 +13,7 @@ import useStatus from "../hooks/useStatus";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import blue from "@material-ui/core/colors/blue";
 import {FirebaseContext} from "../firebase";
+import {withRouter} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
         card: {
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     })
 );
 // TODO: поменять цвет загрузки
-export default function CardExp2(props) {
+function CardExp2({history, ...props}) {
     const classes = useStyles();
 
     // const buttonClassname = clsx({
@@ -76,6 +77,11 @@ export default function CardExp2(props) {
     const {user, firebase} = React.useContext(FirebaseContext);
 
     function handleStartBtnClick(){
+        debugger;
+        if(!user){
+            console.log(user.uid);
+            history.push('/login')
+        } else {
             const chartId = "" + new Date().getTime();
             const statusRef = firebase.database.ref('status');
             statusRef.child("currentUser").on("value", function (snapshot) {
@@ -85,13 +91,16 @@ export default function CardExp2(props) {
                         currentUser: user.uid,
                         chartId: chartId
                     })
+                    history.push('/lab-1')
                     // window.location.href = "lab.html";
-                } else if (currentUser === user.uid) {
+                } else if (currentUser == user.uid) {
+                    history.push('/lab-1')
                     // window.location.href = "lab.html";
                 }
             }, function (errorObject) {
                 console.log("the read failed: " + errorObject.code);
             });
+        }
     }
     // debugger;
     return (
@@ -184,3 +193,4 @@ export default function CardExp2(props) {
         // </Grid>
     );
 }
+export default withRouter(CardExp2);

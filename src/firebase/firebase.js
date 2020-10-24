@@ -1,13 +1,13 @@
-import firebase from "firebase/app";
+import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import "firebase/database";
 import firebaseConfig from "./config";
 
-const firebaseApp = !firebase.apps.length
-    ? firebase.initializeApp(firebaseConfig)
-    : firebase.app();
+const firebaseApp = !app.apps.length
+    ? app.initializeApp(firebaseConfig)
+    : app.app();
 export const firestore = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
@@ -16,15 +16,15 @@ export const database = firebaseApp.database();
 const labStatusRef = database.ref('status');
 
 export async function signInWithEmailAndPassword(email, password, rememberMe) {
-    await firebase.auth().setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL: firebase.auth.Auth.Persistence.SESSION).then(()=>{
-        return firebase.auth().signInWithEmailAndPassword(email, password);
+    await app.auth().setPersistence(rememberMe ? app.auth.Auth.Persistence.LOCAL: app.auth.Auth.Persistence.SESSION).then(()=>{
+        return app.auth().signInWithEmailAndPassword(email, password);
     })
     // window.location.reload();
 }
 
 export async function createUserWithEmailAndPassword(fname, lname, faculty, group, email, password) {
     console.log(email + " " + fname + " " + lname);
-    return await firebase.auth().createUserWithEmailAndPassword(email, password)
+    return await app.auth().createUserWithEmailAndPassword(email, password)
         .then(registeredUser => {
             firestore.collection('usersCollection').doc(registeredUser.user.uid)
                 .set({
