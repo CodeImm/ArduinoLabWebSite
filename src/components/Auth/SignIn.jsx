@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Field, Form, Formik} from 'formik';
 import LinearProgress from "@material-ui/core/LinearProgress";
-import firebase, {FirebaseContext} from "../../firebase";
+import {FirebaseContext} from "../../firebase";
 import Box from "@material-ui/core/Box";
 import {Redirect} from "react-router-dom";
 
@@ -41,11 +41,11 @@ export default function SignIn() {
     const classes = useStyles();
     const [firebaseError, setFirebaseError] = React.useState(null);
 
-    const {user} = React.useContext(FirebaseContext);
+    const {firebase} = React.useContext(FirebaseContext);
 
-    if (user) {
-        return <Redirect from="/login" to="/"/>
-    }
+    // if (user) {
+    //     return <Redirect from="/login" to="/"/>
+    // }
 
     return (
         <Container component="main" maxWidth="xs">

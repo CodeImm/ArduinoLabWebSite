@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTheme} from '@material-ui/core/styles';
-import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
+import {CartesianGrid, Label, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import Title from '../shared/Title';
 import {FirebaseContext} from "../../firebase";
 
@@ -79,11 +79,14 @@ export default function Chart(props) {
                     margin={{
                         top: 16,
                         right: 16,
-                        bottom: 0,
-                        left: 24,
+                        bottom: 20,
+                        left: 20,
                     }}
                 >
-                    <XAxis dataKey="frequency" stroke={theme.palette.text.secondary}/>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="frequency" stroke={theme.palette.text.secondary}>
+                        <Label value="Frequency, Hz" offset={0} position="bottom" />
+                    </XAxis>
                     <YAxis stroke={theme.palette.text.secondary}>
                         <Label
                             angle={270}
@@ -93,7 +96,8 @@ export default function Chart(props) {
                             Relative amplitude
                         </Label>
                     </YAxis>
-                    <Line type="monotone" dataKey="amplitude" stroke={theme.palette.primary.main} dot={false}/>
+                    <Tooltip />
+                    <Line type="monotone" dataKey="amplitude" stroke={theme.palette.primary.main} activeDot={{ r: 8 }}/>
                 </LineChart>
             </ResponsiveContainer>
         </React.Fragment>
