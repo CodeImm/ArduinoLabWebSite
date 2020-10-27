@@ -18,7 +18,7 @@ import {withRouter} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
         card: {
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             // maxWidth: 500
         },
         cardDetails: {
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
             flex: '1 0 auto',
         },
         cardMedia: {
-            width: 150,
+            // width: "100%",
+            // maxWidth: "400px"
         },
         actions: {
             // display: 'flex',
@@ -108,16 +109,16 @@ function CardExp2({history, ...props}) {
         <Grid item xs={12} md={8}>
             <CardActionArea component="a" href="#">
                 <Card className={classes.card}>
-                    <Hidden xsDown>
+                    {/*<Hidden xsDown>*/}
                         <CardMedia
                             component="img"
                             className={classes.cardMedia}
-                            alt="Contemplative Reptile"
-                            image="https://source.unsplash.com/random"
+                            alt="Laboratory unit"
+                            image={props.photo}
                             title="Contemplative Reptile"
                         />
                         {/*// title={post.imageTitle} />*/}
-                    </Hidden>
+                    {/*</Hidden>*/}
                     <div className={classes.cardDetails}>
                         <CardContent>
                             <Typography component="h2" variant="h5">

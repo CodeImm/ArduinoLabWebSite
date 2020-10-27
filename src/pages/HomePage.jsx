@@ -4,16 +4,18 @@ import Grid from "@material-ui/core/Grid";
 import FirebaseContext from "../firebase/context";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
-
+import photo from "./../assert/images/IMG_20200513_041540.jpg"
 const cardsExp = [
     {
-        title: "Лабораторная работа Определение скорости звука в воздухе",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias dignissimos eaque fuga fugit id maiores nulla placeat quam quasi tempora, velit veritatis, vero! Accusamus adipisci at eum provident voluptates."
+        title: "Определение скорости звука в воздухе методом стоячих волн в трубе",
+        description: "Цель работы: Определение фазовой скорости распространения звуковой\n" +
+            "волны в воздухе методом стоячих волн.",
+        photo: photo
     },
-    {
-        title: "Лабораторная работа 2 Определение скорости звука в воздухе",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias dignissimos eaque fuga fugit id maiores nulla placeat quam quasi tempora, velit veritatis, vero! Accusamus adipisci at eum provident voluptates."
-    }
+    // {
+    //     title: "Лабораторная работа 2 Определение скорости звука в воздухе",
+    //     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias dignissimos eaque fuga fugit id maiores nulla placeat quam quasi tempora, velit veritatis, vero! Accusamus adipisci at eum provident voluptates."
+    // }
 ]
 
 const useStyles = makeStyles((theme)=>({
@@ -36,7 +38,7 @@ export default function HomePage() {
                 <Grid container className={classes.mainGrid} spacing={spacing} justify="center">
                     {/*{[0, 1, 2].map((value) => (*/}
                     {cardsExp.map((card) => (
-                        <CardExp2 key={card.title} title={card.title} description={card.description}/>
+                        <CardExp2 key={card.title} photo ={card.photo} title={card.title} description={card.description}/>
                     ))}
                 </Grid>
             </Container>
