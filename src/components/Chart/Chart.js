@@ -22,7 +22,17 @@ function createData(frequency, amplitude) {
 //     // createData('24:00', undefined),
 // ];
 
-export default function Chart(props) {
+export default function Chart({
+                                  isSubmitting,
+                                  toggleIsSubmitting,
+                                  isAutoSubmitting,
+                                  toggleIsAutoSubmitting,
+                                  countAutoSubmitting,
+                                  setCountAutoSubmitting,
+                                  decreaseCountAutoSubmitting,
+                                  toggleIsCancelAutoSubmitting,
+                                  ...props
+                              }) {
     const theme = useTheme();
     const {user, firebase} = React.useContext(FirebaseContext);
     const statusRef = firebase.database.ref('status');
@@ -38,44 +48,41 @@ export default function Chart(props) {
 
 
     function getPoints() {
-        if(user) {
+        if (user) {
             //TODO: убрать два условия ниже, chartId передавать через props
             chartIdRef.once("value").then(function (snap) {
-                // console.log(Object.keys(snap.val())[0]);
-                if (snap.val() != "null") {
+                if (snap.val() !== "null") {
                     const pointsRefStr = 'users/' + user.uid + '/charts/' + snap.val();
-                    console.log(snap.val());
                     const chartRef = firebase.database.ref(pointsRefStr);
-                    console.log(pointsRefStr);
                     chartRef.on('child_added', snapshot => {
                         const addedData = snapshot.val();
-                        console.log(addedData);
                         setData(prevState => {
                             return [...prevState, createData(addedData.x, addedData.y)]
                         });
+                        toggleIsCancelAutoSubmitting(false);
+                        // if (isSubmitting) {
+                        toggleIsSubmitting(false);
+                        // }
+                        // if (isAutoSubmitting) {
+                        //     countAutoSubmitting === 0
+                        //         ?toggleIsAutoSubmitting(false)
+                        decreaseCountAutoSubmitting();
 
-                        // config.data.datasets[0].data.push(parseInt(addedData.y));
-                        // config.data.labels.push(parseInt(addedData.x));
-                        // window.myLine.update();
-                        // $("#addData").prop("disabled", false);
-                        // $("#addData").removeClass("button--disable");
+                        // }
                     })
                     return () => chartRef.off("value");
                 }
             });
         }
-
-        // linkRef.get().then(doc => {
-        //     setLink({...doc.data(), id: doc.id})
-        // })
     }
 
     return (
         <React.Fragment>
-            <Title>Today</Title>
+            <Title>График зависимости отн. интенсивности волны от частоты</Title>
             <ResponsiveContainer>
                 <LineChart
                     data={data}
+                    // height={300}
                     margin={{
                         top: 16,
                         right: 16,
@@ -83,11 +90,11 @@ export default function Chart(props) {
                         left: 20,
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="frequency" stroke={theme.palette.text.secondary}>
-                        <Label value="Frequency, Hz" offset={0} position="bottom" />
+                        <Label value="Frequency, Hz" offset={0} position="bottom"/>
                     </XAxis>
-                    <YAxis stroke={theme.palette.text.secondary}>
+                    <YAxis stroke={theme.palette.text.secondary} type="number" domain={[0, 1100]}>
                         <Label
                             angle={270}
                             position="left"
@@ -96,8 +103,8 @@ export default function Chart(props) {
                             Relative amplitude
                         </Label>
                     </YAxis>
-                    <Tooltip />
-                    <Line type="monotone" dataKey="amplitude" stroke={theme.palette.primary.main} activeDot={{ r: 8 }}/>
+                    <Tooltip/>
+                    <Line type="monotone" dataKey="amplitude" stroke={theme.palette.primary.main} activeDot={{r: 8}}/>
                 </LineChart>
             </ResponsiveContainer>
         </React.Fragment>

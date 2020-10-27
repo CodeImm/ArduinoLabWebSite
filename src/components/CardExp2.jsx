@@ -89,7 +89,8 @@ function CardExp2({history, ...props}) {
                 if (currentUser === "null") {
                     statusRef.update({
                         currentUser: user.uid,
-                        chartId: chartId
+                        chartId: chartId,
+                        power: "on",
                     })
                     history.push('/lab-1')
                     // window.location.href = "lab.html";

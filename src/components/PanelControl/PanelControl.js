@@ -13,12 +13,27 @@ import Checkbox from "@material-ui/core/Checkbox";
 import * as Yup from "yup";
 import MaterialField from "../shared/MaterialField";
 import LinearProgressWithLabel from "../shared/LinearProgressWithLable";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import blue from "@material-ui/core/colors/blue";
+import Switch from "@material-ui/core/Switch";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
     depositContext: {
         flex: 1,
     },
-});
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    buttonProgress: {
+        color: blue[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    }
+}));
 
 const ControlSchema = Yup.object().shape({
     frequency: Yup.number()
@@ -28,21 +43,59 @@ const ControlSchema = Yup.object().shape({
 })
 
 
-export default function PanelControl() {
+export default function PanelControl({isSubmitting,
+                                         toggleIsSubmitting,
+                                         isAutoSubmitting,
+                                         isCancelAutoSubmitting,
+                                         toggleIsAutoSubmitting,
+                                         countAutoSubmitting,
+                                         setCountAutoSubmitting,
+                                         toggleIsCancelAutoSubmitting,
+                                         ...props}) {
     const classes = useStyles();
-    const [step, setStep] = React.useState(10);
     const {user, firebase} = React.useContext(FirebaseContext);
     const [firebaseError, setFirebaseError] = React.useState(null);
-    const [progress, setProgress] = React.useState(10);
+    const [progress, setProgress] = React.useState(0);
+    const [stepProgress, setStepProgress] = React.useState(0);
+    const [frequenciesArray, setFrequenciesArray] = React.useState([]);
+    const [count, setCount] = React.useState(countAutoSubmitting);
+    const statusRef = firebase.database.ref('status');
+    const bpStateRef = firebase.database.ref('status/bpState');
+    
 
     React.useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-        }, 800);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+        getNextPoint();
+    });
+
+    function getNextPoint() {
+        if (!isSubmitting && isAutoSubmitting && countAutoSubmitting!==0) {
+            try {
+                statusRef.update({
+                    frequency: frequenciesArray[0],
+                    bpState: true,
+                });
+                setFrequenciesArray(prevState => {
+                    prevState.shift();
+                    return prevState;
+                })
+                setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + stepProgress));
+                toggleIsSubmitting(true);
+                // setCanceling(false);
+            } catch (error) {
+                // setSubmitting(false);
+                setFirebaseError(error.message);
+            }
+        }else if (!isSubmitting&&countAutoSubmitting===0) {
+            toggleIsCancelAutoSubmitting(false);
+            toggleIsAutoSubmitting(false);
+            setProgress(0);
+        }
+        // }else if (isSubmitting){
+        //     toggleIsAutoSubmitting(false);
+        //     toggleIsSubmitting(false);
+        //     toggleIsCancelAutoSubmitting(false);
+        // }
+    }
 
     function valuetext(value) {
         return `${value}°C`;
@@ -56,33 +109,47 @@ export default function PanelControl() {
                     frequency: 2000,
                     auto: false,
                     range: [2000, 6000],
-                    step: 10,
+                    step: 100,
                 }}
                 validationSchema={ControlSchema}
-                onSubmit={(values, {setSubmitting}) => {
-                    const {frequency} = values;
-                    const statusRef = firebase.database.ref('status');
-                    if(values.auto){
-
+                onSubmit={(values) => {
+                    if (values.auto && frequenciesArray.length === 0) {
+                        const numberSteps = Math.floor((values.range[1] - values.range[0]) / values.step);
+                        const frequencies = [];
+                        for (let i = 0; i <= numberSteps; i++) {
+                            frequencies[i] = values.range[0] + values.step * i;
+                        }
+                        setFrequenciesArray(frequencies);
+                        setCountAutoSubmitting(frequencies.length);
+                        setStepProgress(100/(numberSteps+1));
+                        toggleIsAutoSubmitting(true);
+                        toggleIsSubmitting(true);
+                    } else if(isAutoSubmitting){
+                        setCountAutoSubmitting([]);
+                        toggleIsAutoSubmitting(false);
+                        setStepProgress(0);
+                        setProgress(0);
+                        setFrequenciesArray([]);
+                        toggleIsCancelAutoSubmitting(true);
                     }else{
+                        toggleIsSubmitting(true);
                         try {
                             statusRef.update({
-                                frequency: frequency,
+                                frequency: values.frequency,
                                 bpState: true,
                             });
                         } catch (error) {
-                            setSubmitting(false);
+                            toggleIsSubmitting(false);
                             setFirebaseError(error.message);
                         }
-
                     }
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
+                    // setTimeout(() => {
+                    //     alert(JSON.stringify(values, null, 2));
+                    //     toggleIsSubmitting(false);
+                    // }, 2000);
                 }}
             >
-                {({isSubmitting, handleChange, handleBlur, values, dirty, isValid, errors}) => (
+                {({handleChange, handleBlur, values, dirty, isValid, errors}) => (
                     <Form>
                         <MaterialField
                             as={TextField}
@@ -94,7 +161,7 @@ export default function PanelControl() {
                             name="frequency"
                             label="Frequency (Hz)"
                             type="number"
-                            step="100"
+                            step={100}
                             error={!!errors.frequency}
                             id="frequency"
                             autoComplete="none"
@@ -103,10 +170,17 @@ export default function PanelControl() {
                         />
 
                         <FormControlLabel
-                            control={<Field as={Checkbox} type="checkbox" color="primary"
-                                            name="auto"/>}
+                            control={
+                                <Field
+                                    as={Switch}
+                                    checked={values.auto}
+                                    name="auto"
+                                    color="primary"
+                                />
+                            }
                             label="Auto"
                         />
+
                         {values.auto &&
                         <>
                             <Typography id="discrete-slider" gutterBottom>
@@ -121,6 +195,7 @@ export default function PanelControl() {
                                 step={10}
                                 min={30}
                                 max={10000}
+                                disabled={isAutoSubmitting}
                             />
                             <Typography id="discrete-slider" gutterBottom>
                                 Step
@@ -128,7 +203,7 @@ export default function PanelControl() {
                             <MaterialSlider
                                 name="step"
                                 id="step"
-                                defaultValue={10}
+                                defaultValue={100}
                                 getAriaValueText={valuetext}
                                 aria-labelledby="discrete-slider"
                                 valueLabelDisplay="auto"
@@ -136,20 +211,26 @@ export default function PanelControl() {
                                 marks
                                 min={10}
                                 max={200}
+                                disabled={isAutoSubmitting}
                             />
-                            <LinearProgressWithLabel value={progress} />
+                            {isAutoSubmitting &&
+                                <LinearProgressWithLabel value={progress}/>
+                            }
                         </>
                         }
+                        <div className={classes.wrapper}>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            disabled={!isValid || isSubmitting}
+                            disabled={!isValid || (!isAutoSubmitting && isSubmitting)}
                             className={classes.submit}
                         >
-                            Signal
+                            {(isAutoSubmitting || isCancelAutoSubmitting)? "Cancel" : "Signal"}
                         </Button>
+                        {isCancelAutoSubmitting && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                        </div>
                     </Form>
                 )}
             </Formik>
