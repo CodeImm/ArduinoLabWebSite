@@ -121,7 +121,7 @@ export default function PanelControl({isSubmitting,
                         }
                         setFrequenciesArray(frequencies);
                         setCountAutoSubmitting(frequencies.length);
-                        setStepProgress(100/(numberSteps+1));
+                        setStepProgress(100/(numberSteps+2));
                         toggleIsAutoSubmitting(true);
                         toggleIsSubmitting(true);
                     } else if(isAutoSubmitting){
@@ -176,6 +176,7 @@ export default function PanelControl({isSubmitting,
                                     checked={values.auto}
                                     name="auto"
                                     color="primary"
+                                    disabled={isAutoSubmitting}
                                 />
                             }
                             label="Auto"
