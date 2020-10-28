@@ -79,21 +79,21 @@ export default function Header() {
                         <Link variant="button" color="textPrimary" href="/home" className={classes.link}>
                             Home
                         </Link>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Experiments
-                        </Link>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            About Lab
-                        </Link>
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Contact
-                        </Link>
+                        {/*<Link variant="button" color="textPrimary" href="#" className={classes.link}>*/}
+                        {/*    Experiments*/}
+                        {/*</Link>*/}
+                        {/*<Link variant="button" color="textPrimary" href="#" className={classes.link}>*/}
+                        {/*    About Lab*/}
+                        {/*</Link>*/}
+                        {/*<Link variant="button" color="textPrimary" href="#" className={classes.link}>*/}
+                        {/*    Contact*/}
+                        {/*</Link>*/}
                         {/*<Link variant="button" color="textPrimary" href="#" className={classes.link}>*/}
                         {/*    Enterprise*/}
                         {/*</Link>*/}
-                        <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Support
-                        </Link>
+                        {/*<Link variant="button" color="textPrimary" href="#" className={classes.link}>*/}
+                        {/*    Support*/}
+                        {/*</Link>*/}
                     </nav>
                     {user ?
                         <Button onClick={handleLogOutClick} color="primary" variant="outlined" className={classes.link}>

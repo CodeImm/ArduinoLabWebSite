@@ -41,11 +41,11 @@ export default function SignIn() {
     const classes = useStyles();
     const [firebaseError, setFirebaseError] = React.useState(null);
 
-    const {firebase} = React.useContext(FirebaseContext);
+    const {user, firebase} = React.useContext(FirebaseContext);
 
-    // if (user) {
-    //     return <Redirect from="/login" to="/"/>
-    // }
+    if (user) {
+        return <Redirect from="/login" to="/"/>
+    }
 
     return (
         <Container component="main" maxWidth="xs">

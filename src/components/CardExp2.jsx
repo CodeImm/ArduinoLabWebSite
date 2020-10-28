@@ -13,7 +13,8 @@ import useStatus from "../hooks/useStatus";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import blue from "@material-ui/core/colors/blue";
 import {FirebaseContext} from "../firebase";
-import {withRouter} from "react-router-dom";
+import {useHistory, withRouter} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
         card: {
@@ -73,37 +74,57 @@ function CardExp2({history, ...props}) {
     // const buttonClassname = clsx({
     //     [classes.buttonSuccess]: success,
     // });
-
-    const {usersQueue, loading} = useStatus();
+    // const [isLoading, setIsLoading] = React.useState(true);
+    const {loading, ...labStatus } = useStatus();
     const {user, firebase} = React.useContext(FirebaseContext);
+
+    // if (!user) {
+    //     return <Redirect to="/"/>
+    // }
 
     function handleStartBtnClick(){
         debugger;
         if(!user){
-            console.log(user.uid);
-            history.push('/login')
+            // console.log(user.uid);
+            history.push('/signin')
         } else {
             const chartId = "" + new Date().getTime();
             const statusRef = firebase.database.ref('status');
-            statusRef.child("currentUser").on("value", function (snapshot) {
+            statusRef.child("currentUser").once("value", function (snapshot) {
                 const currentUser = snapshot.val();
                 if (currentUser === "null") {
                     statusRef.update({
                         currentUser: user.uid,
                         chartId: chartId,
+                        isReady: false,
+                        isTimeOut: false,
                         power: "on",
                     })
-                    history.push('/lab-1')
+
+                    history.push('/lab-1');
+
                     // window.location.href = "lab.html";
-                } else if (currentUser == user.uid) {
-                    history.push('/lab-1')
+                } else if (currentUser === user.uid) {
+                    statusRef.update({
+                        isReady: false,
+                        isTimeOut: false,
+                        power: "on",
+                    })
+                    history.push('/lab-1');
                     // window.location.href = "lab.html";
                 }
+                // return () => statusRef.off("value");
             }, function (errorObject) {
                 console.log("the read failed: " + errorObject.code);
             });
+
         }
     }
+
+    function toTheory() {
+        history.push("/theory");
+    }
+
     // debugger;
     return (
         <Grid item xs={12} md={8}>
@@ -115,7 +136,7 @@ function CardExp2({history, ...props}) {
                             className={classes.cardMedia}
                             alt="Laboratory unit"
                             image={props.photo}
-                            title="Contemplative Reptile"
+                            title="Laboratory unit"
                         />
                         {/*// title={post.imageTitle} />*/}
                     {/*</Hidden>*/}
@@ -129,20 +150,17 @@ function CardExp2({history, ...props}) {
                             </Typography>
                         </CardContent>
                         <CardActions className={classes.actions}>
-                            <Button size="small" color="primary">
+                            <Button size="small" color="primary" onClick={toTheory}>
                                 Theory
                             </Button>
-                            <Button size="small" color="primary">
-                                Apparatus
-                            </Button>
+                            {/*<Button size="small" color="primary">*/}
+                            {/*    Apparatus*/}
+                            {/*</Button>*/}
                             <div className={classes.wrapper}>
                                 <Button onClick={handleStartBtnClick} size="small" color="primary" disabled={loading}>
-                                    {!loading &&
-                                    (usersQueue &&
-                                    user &&
-                                    usersQueue.some(element => element === user.uid)
+                                    {(user && labStatus.currentUser == user.uid)
                                         ? 'Continue'
-                                        : 'Run experiment')
+                                        : 'Run experiment'
                                     }
                                 </Button>
                                 {loading && <CircularProgress size={24} className={classes.buttonProgress}/>}

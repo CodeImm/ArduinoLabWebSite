@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import ExportCsvIcon from '../assert/icons/ExportCsvIcon';
 import AlertDialog from "../components/shared/AlertDialog";
+import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     mainGrid: {
@@ -88,7 +89,6 @@ export default function LabPage({
         // return () => unsubscribe();
         // console.log(points);
     }, [user]);
-
 
     function getPoints() {
         if (user) {
@@ -174,6 +174,7 @@ export default function LabPage({
             alert('Ошибка: нет данных для сохранения!');
         }
     }
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -183,11 +184,13 @@ export default function LabPage({
         setOpen(false);
     };
 
-    const handleСonfirm= () => {
+    const handleСonfirm = () => {
         removeAllPoints();
         setOpen(false);
     };
-
+    if (!user) {
+        return <Redirect to="/"/>
+    }
     const disableIcon = isSubmitting || isAutoSubmitting || isCancelAutoSubmitting;
     return (
         <React.Fragment>

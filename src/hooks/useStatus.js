@@ -5,23 +5,24 @@ import firebase, {FirebaseContext} from "../firebase";
 function useStatus() {
     const labStatusRef = firebase.database.ref('status');
     const [loading, setLoading] = React.useState(true);
-    const [usersQueue, setUsersQueue] = React.useState(null);
+    const [labStatus, setLabStatus] = React.useState(null);
     const {user} = React.useContext(FirebaseContext);
 
     React.useEffect(() => {
-        if (user) {
+        if(user) {
             labStatusRef.on('value', snapshot => {
                 // debugger
-                const usersQueue = snapshot.child("currentUser").val();
+                // const usersQueue = snapshot.child("currentUser").val();
+                setLabStatus(snapshot.val());
                 setLoading(false);
-                setUsersQueue(usersQueue);
             })
-        } else {
+            return () => labStatusRef.off("value");
+        }else{
             setLoading(false);
         }
     }, []);
 
-    return {usersQueue, loading}
+    return {loading, ...labStatus}
 
     // const statusRef = firebase.database().ref('status');
     // statusRef.on('value', function (snapshot) {

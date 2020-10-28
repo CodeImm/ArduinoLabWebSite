@@ -14,6 +14,7 @@ import SignIn from "./components/Auth/SignIn";
 import Recovery from "./components/Auth/Recovery";
 import LabPage from "./pages/LabPage";
 import LabPageContainer from "./pages/LabPageContainer";
+import TheoryPage from "./pages/TheoryPage";
 
 export default function App() {
     const {user, loading} = useAuth();
@@ -33,6 +34,7 @@ export default function App() {
                             <Route exact path="/home" component={HomePage}/>
                             <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/signin" component={SignIn}/>
+                            <Route exact path="/theory" component={TheoryPage}/>
                             <Route exact path="/recovery" component={Recovery}/>
                             <Route exact path="/lab-1" component={LabPageContainer}/>
                         </Switch>
