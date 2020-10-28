@@ -17,7 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import blue from "@material-ui/core/colors/blue";
 import Switch from "@material-ui/core/Switch";
 
-const useStyles = makeStyles(theme=>({
+const useStyles = makeStyles(theme => ({
     depositContext: {
         flex: 1,
     },
@@ -43,15 +43,18 @@ const ControlSchema = Yup.object().shape({
 })
 
 
-export default function PanelControl({isSubmitting,
+export default function PanelControl({
+                                         isSubmitting,
                                          toggleIsSubmitting,
+                                         isChartInitialized,
                                          isAutoSubmitting,
                                          isCancelAutoSubmitting,
                                          toggleIsAutoSubmitting,
                                          countAutoSubmitting,
                                          setCountAutoSubmitting,
                                          toggleIsCancelAutoSubmitting,
-                                         ...props}) {
+                                         ...props
+                                     }) {
     const classes = useStyles();
     const {user, firebase} = React.useContext(FirebaseContext);
     const [firebaseError, setFirebaseError] = React.useState(null);
@@ -59,16 +62,36 @@ export default function PanelControl({isSubmitting,
     const [stepProgress, setStepProgress] = React.useState(0);
     const [frequenciesArray, setFrequenciesArray] = React.useState([]);
     const [count, setCount] = React.useState(countAutoSubmitting);
+    const [isReady, setIsReady] = React.useState(false);
     const statusRef = firebase.database.ref('status');
     const bpStateRef = firebase.database.ref('status/bpState');
-    
+    const isReadyRef = firebase.database.ref('status/isReady');
+
+    React.useEffect(() => {
+        checkReadiness();
+        // return () => unsubscribe();
+        // console.log(points);
+    }, [user]);
+
+    function checkReadiness() {
+        if (user) {
+            isReadyRef.on("value", (snap) => {
+                if (snap.val() == true) {
+                    setIsReady(true);
+                }else{
+                    setIsReady(false);
+                }
+            })
+            return () => isReadyRef.off("value");
+        }
+    }
 
     React.useEffect(() => {
         getNextPoint();
     });
 
     function getNextPoint() {
-        if (!isSubmitting && isAutoSubmitting && countAutoSubmitting!==0) {
+        if (!isSubmitting && isAutoSubmitting && countAutoSubmitting !== 0) {
             try {
                 statusRef.update({
                     frequency: frequenciesArray[0],
@@ -85,7 +108,7 @@ export default function PanelControl({isSubmitting,
                 // setSubmitting(false);
                 setFirebaseError(error.message);
             }
-        }else if (!isSubmitting&&countAutoSubmitting===0) {
+        } else if (!isSubmitting && countAutoSubmitting === 0) {
             toggleIsCancelAutoSubmitting(false);
             toggleIsAutoSubmitting(false);
             setProgress(0);
@@ -121,17 +144,17 @@ export default function PanelControl({isSubmitting,
                         }
                         setFrequenciesArray(frequencies);
                         setCountAutoSubmitting(frequencies.length);
-                        setStepProgress(100/(numberSteps+2));
+                        setStepProgress(100 / (numberSteps + 2));
                         toggleIsAutoSubmitting(true);
                         toggleIsSubmitting(true);
-                    } else if(isAutoSubmitting){
+                    } else if (isAutoSubmitting) {
                         setCountAutoSubmitting([]);
                         toggleIsAutoSubmitting(false);
                         setStepProgress(0);
                         setProgress(0);
                         setFrequenciesArray([]);
                         toggleIsCancelAutoSubmitting(true);
-                    }else{
+                    } else {
                         toggleIsSubmitting(true);
                         try {
                             statusRef.update({
@@ -215,22 +238,22 @@ export default function PanelControl({isSubmitting,
                                 disabled={isAutoSubmitting}
                             />
                             {isAutoSubmitting &&
-                                <LinearProgressWithLabel value={progress}/>
+                            <LinearProgressWithLabel value={progress}/>
                             }
                         </>
                         }
                         <div className={classes.wrapper}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            disabled={!isValid || (!isAutoSubmitting && isSubmitting)}
-                            className={classes.submit}
-                        >
-                            {(isAutoSubmitting || isCancelAutoSubmitting)? "Cancel" : "Signal"}
-                        </Button>
-                        {isCancelAutoSubmitting && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                disabled={!isValid || (!isAutoSubmitting && isSubmitting)||!isReady}
+                                className={classes.submit}
+                            >
+                                {(isAutoSubmitting || isCancelAutoSubmitting) ? "Cancel" : "Signal"}
+                            </Button>
+                            {isCancelAutoSubmitting || !isReady && <CircularProgress size={24} className={classes.buttonProgress}/>}
                         </div>
                     </Form>
                 )}

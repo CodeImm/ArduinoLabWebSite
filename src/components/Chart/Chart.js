@@ -1,17 +1,48 @@
 import React from 'react';
-import {useTheme} from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import {CartesianGrid, Label, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import Title from '../shared/Title';
 import {FirebaseContext} from "../../firebase";
+import Loading from "../shared/Loading";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import blue from "@material-ui/core/colors/blue";
+
+const useStyles = makeStyles(theme => ({
+    depositContext: {
+        flex: 1,
+    },
+    wrapper: {
+        display: "flex",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonProgress: {
+        color: blue[500],
+
+    }
+}));
 
 export default function Chart({
+                                  isChartInitialized,
                                   data,
                                   ...props
                               }) {
     const theme = useTheme();
+    const classes = useStyles();
     const [dataProps, setDataProps] = React.useState(data);
 // This will launch only if propName value has chaged.
-    React.useEffect(() => { setDataProps(data) }, [data]);
+    React.useEffect(() => {
+        setDataProps(data)
+    }, [data]);
+
+    // if (!isChartInitialized) {
+    //     return (
+    //         <div className={classes.wrapper}>
+    //             <CircularProgress size={24} className={classes.buttonProgress}/>
+    //         </div>
+    //     )
+    // }
 
     return (
         <React.Fragment>

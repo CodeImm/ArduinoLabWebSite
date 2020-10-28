@@ -19,6 +19,7 @@ import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Loading from "../components/shared/Loading";
+import TimeOutDialog from "../components/shared/TimeOutDialog";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -89,25 +90,37 @@ export default function LabPage({
                                     decreaseCountAutoSubmitting,
                                     toggleIsCancelAutoSubmitting,
                                     isCancelAutoSubmitting,
-                                    toggleCompleteTheWork,
-                                    isCompleteTheWork,
+                                    toggleIsChartInitialized,
+                                    isChartInitialized,
                                     ...props
                                 }) {
 
     const {user, firebase} = React.useContext(FirebaseContext);
-
-
-
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
-
     const graphPaper = clsx(classes.paper, classes.graph);
     const onAllHeightPaper = clsx(classes.paper, classes.onAllHeight);
-    const statusRef = firebase.database.ref('status');
+    const isTimeOutRef = firebase.database.ref('status/isTimeOut');
     const chartIdRef = firebase.database.ref('status/chartId');
     const [data, setData] = React.useState([]);
+    const [isTimeOut, setIsTimeOut] = React.useState(false);
     // console.log(user.uid);
+    React.useEffect(() => {
+        checkTimeOut();
+        // return () => unsubscribe();
+        // console.log(points);
+    }, [user]);
 
+    function checkTimeOut() {
+        if (user) {
+            isTimeOutRef.on("value", (snap) => {
+                if (snap.val() == true) {
+                   setIsTimeOut(true);
+                }
+            })
+            return () => isTimeOutRef.off("value");
+        }
+    }
     React.useEffect(() => {
         getPoints();
         // return () => unsubscribe();
@@ -129,8 +142,6 @@ export default function LabPage({
                         toggleIsCancelAutoSubmitting(false);
                         toggleIsSubmitting(false);
                         decreaseCountAutoSubmitting();
-
-                        // }
                     })
                     return () => chartRef.off("value");
                 }
@@ -216,25 +227,24 @@ export default function LabPage({
 
     const handleCompleteWork = () => {
         if (!user) {
-            // console.log(user.uid);
             history.push('/signin');
         } else {
-            const chartId = "" + new Date().getTime();
+            toggleIsSubmitting(false);
+            toggleIsAutoSubmitting(false);
+            toggleIsCancelAutoSubmitting(false);
             const statusRef = firebase.database.ref('status');
             statusRef.child("currentUser").once("value", function (snapshot) {
                 const currentUser = snapshot.val();
                 if (currentUser === user.uid) {
                     statusRef.update({
+                        bpState: false,
                         currentUser: "null",
                         chartId: "null",
                         isReady: false,
                         isTimeOut: false,
                         power: "off",
                     })
-
                     history.push('/');
-
-                    // window.location.href = "lab.html";
                 }
             }, function (errorObject) {
                 console.log("the read failed: " + errorObject.code);
@@ -246,10 +256,16 @@ export default function LabPage({
         return <Redirect to="/"/>
     }
 
+    const handleCloseTimeOutDialog = () => {
+        setOpen(false);
+        history.push('/');
+    };
+
     const disableIcon = isSubmitting || isAutoSubmitting || isCancelAutoSubmitting;
     return (
         <React.Fragment>
             <AlertDialog open={open} handleClose={handleClose} handleСonfirm={handleСonfirm}/>
+            <TimeOutDialog open={isTimeOut} handleClose={handleCloseTimeOutDialog} />
             <Container maxWidth="md" component="main" className={classes.main}>
                 <div className={classes.labHeader}>
                     <Typography variant="h6" gutterBottom>
@@ -267,14 +283,14 @@ export default function LabPage({
                         >
                             Complete the work
                         </Button>
-                        {isCompleteTheWork && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                        {/*{isCompleteTheWork && <CircularProgress size={24} className={classes.buttonProgress}/>}*/}
                     </div>
                 </div>
                 <Divider/>
                 <Grid container className={classes.mainGrid} spacing={spacing} justify="center">
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={graphPaper}>
-                            <Chart data={data} {...props} />
+                            <Chart data={data} isChartInitialized={isChartInitialized} {...props} />
                         </Paper>
                         <Paper className={classes.actions}>
                             <div>
@@ -307,6 +323,7 @@ export default function LabPage({
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={onAllHeightPaper}>
                             <PanelControl
+                                isChartInitialized={isChartInitialized}
                                 isSubmitting={isSubmitting}
                                 toggleIsSubmitting={toggleIsSubmitting}
                                 isAutoSubmitting={isAutoSubmitting}

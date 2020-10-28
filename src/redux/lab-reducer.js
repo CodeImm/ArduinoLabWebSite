@@ -3,13 +3,13 @@ const TOGGLE_IS_AUTO_SUBMITTING = 'TOGGLE_IS_AUTO_SUBMITTING';
 const SET_COUNT_AUTO_SUBMITTING = 'SET_COUNT_AUTO_SUBMITTING';
 const DECREASE_COUNT_AUTO_SUBMITTING = 'DECREASE_COUNT_AUTO_SUBMITTING';
 const TOGGLE_IS_CANCEL_AUTO_SUBMITTING = 'TOGGLE_IS_CANCEL_AUTO_SUBMITTING';
-const TOGGLE_IS_COMPLETE_THE_WORK = 'TOGGLE_IS_COMPLETE_THE_WORK';
+const TOGGLE_IS_CHART_INITIALIZED = 'TOGGLE_IS_CHART_INITIALIZED';
 
 const initialState = {
     isSubmitting: false,
     isAutoSubmitting: false,
     isCancelAutoSubmitting: false,
-    isCompleteTheWork: false,
+    isChartInitialized: false,
     countAutoSubmitting: 0
 };
 
@@ -26,8 +26,8 @@ const labReducer = (state = initialState, action) => {
             return {...state, countAutoSubmitting: (state.countAutoSubmitting-1)};
         case 'TOGGLE_IS_CANCEL_AUTO_SUBMITTING':
             return {...state, isCancelAutoSubmitting: action.isCancelAutoSubmitting};
-            case 'TOGGLE_IS_COMPLETE_THE_WORK':
-            return {...state, isCompleteTheWork: action.isCompleteTheWork};
+            case 'TOGGLE_IS_CHART_INITIALIZED':
+            return {...state, isChartInitialized: action.isChartInitialized};
         default:
             return state;
     }
@@ -35,7 +35,7 @@ const labReducer = (state = initialState, action) => {
 
 
 export const toggleIsSubmitting = (isSubmitting) => ({type: TOGGLE_IS_SUBMITTING, isSubmitting});
-export const toggleCompleteTheWork = (isCompleteTheWork) => ({type: TOGGLE_IS_COMPLETE_THE_WORK, isCompleteTheWork});
+export const toggleIsChartInitialized = (isChartInitialized) => ({type: TOGGLE_IS_CHART_INITIALIZED, isChartInitialized});
 export const toggleIsAutoSubmitting = (isAutoSubmitting) => ({type: TOGGLE_IS_AUTO_SUBMITTING, isAutoSubmitting});
 export const toggleIsCancelAutoSubmitting = (isCancelAutoSubmitting) => ({type: TOGGLE_IS_CANCEL_AUTO_SUBMITTING, isCancelAutoSubmitting});
 export const setCountAutoSubmitting = (countAutoSubmitting) => ({type: SET_COUNT_AUTO_SUBMITTING, countAutoSubmitting});

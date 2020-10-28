@@ -106,7 +106,6 @@ function CardExp2({history, ...props}) {
     // }
 
     function handleStartBtnClick(){
-        debugger;
         if(!user){
             // console.log(user.uid);
             history.push('/signin')
@@ -119,7 +118,6 @@ function CardExp2({history, ...props}) {
                     statusRef.update({
                         currentUser: user.uid,
                         chartId: chartId,
-                        isReady: false,
                         isTimeOut: false,
                         power: "on",
                     })
@@ -129,7 +127,6 @@ function CardExp2({history, ...props}) {
                     // window.location.href = "lab.html";
                 } else if (currentUser === user.uid) {
                     statusRef.update({
-                        isReady: false,
                         isTimeOut: false,
                         power: "on",
                     })
