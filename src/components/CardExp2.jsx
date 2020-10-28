@@ -182,13 +182,13 @@ function CardExp2({history, ...props}) {
                             {/*    Apparatus*/}
                             {/*</Button>*/}
                             <div className={classes.wrapper}>
-                                <Button onClick={user?handleStartBtnClick:handleClickOpen} size="small" color="primary" disabled={loading}>
+                                <Button onClick={user?handleStartBtnClick:handleClickOpen} size="small" color="primary" disabled={loading&&user?true:false}>
                                     {(user && labStatus.currentUser == user.uid)
                                         ? 'Continue'
                                         : 'Run experiment'
                                     }
                                 </Button>
-                                {loading && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                                {loading && user && <CircularProgress size={24} className={classes.buttonProgress}/>}
                             </div>
                         </CardActions>
                     </div>

@@ -7,8 +7,8 @@ function useAuth() {
 
     React.useEffect(()=> {
         return firebase.checkAuth(user => {
-            setLoading(false);
             user ? setUser(user) : setUser(null);
+            setLoading(false);
         }, []);
     })
 

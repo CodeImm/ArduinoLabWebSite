@@ -14,8 +14,20 @@ import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import ExportCsvIcon from '../assert/icons/ExportCsvIcon';
 import AlertDialog from "../components/shared/AlertDialog";
 import {Redirect} from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Loading from "../components/shared/Loading";
 
 const useStyles = makeStyles((theme) => ({
+    main: {
+        paddingTop: theme.spacing(4)
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
     mainGrid: {
         display: 'flex',
         flexGrow: 1,
@@ -49,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
     onAllHeight: {
         height: '100%',
     },
+    labHeader: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        // flexWrap: "wrap"
+    },
     root: {
         '& > *': {
             margin: theme.spacing(1),
@@ -61,6 +79,7 @@ function createData(frequency, amplitude) {
 }
 
 export default function LabPage({
+                                    history,
                                     isSubmitting,
                                     toggleIsSubmitting,
                                     isAutoSubmitting,
@@ -70,15 +89,20 @@ export default function LabPage({
                                     decreaseCountAutoSubmitting,
                                     toggleIsCancelAutoSubmitting,
                                     isCancelAutoSubmitting,
+                                    toggleCompleteTheWork,
+                                    isCompleteTheWork,
                                     ...props
                                 }) {
-    const {firebase, user} = React.useContext(FirebaseContext);
+
+    const {user, firebase} = React.useContext(FirebaseContext);
+
+
+
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
 
     const graphPaper = clsx(classes.paper, classes.graph);
     const onAllHeightPaper = clsx(classes.paper, classes.onAllHeight);
-
     const statusRef = firebase.database.ref('status');
     const chartIdRef = firebase.database.ref('status/chartId');
     const [data, setData] = React.useState([]);
@@ -188,14 +212,65 @@ export default function LabPage({
         removeAllPoints();
         setOpen(false);
     };
+
+
+    const handleCompleteWork = () => {
+        if (!user) {
+            // console.log(user.uid);
+            history.push('/signin');
+        } else {
+            const chartId = "" + new Date().getTime();
+            const statusRef = firebase.database.ref('status');
+            statusRef.child("currentUser").once("value", function (snapshot) {
+                const currentUser = snapshot.val();
+                if (currentUser === user.uid) {
+                    statusRef.update({
+                        currentUser: "null",
+                        chartId: "null",
+                        isReady: false,
+                        isTimeOut: false,
+                        power: "off",
+                    })
+
+                    history.push('/');
+
+                    // window.location.href = "lab.html";
+                }
+            }, function (errorObject) {
+                console.log("the read failed: " + errorObject.code);
+            });
+        }
+    }
+
     if (!user) {
         return <Redirect to="/"/>
     }
+
     const disableIcon = isSubmitting || isAutoSubmitting || isCancelAutoSubmitting;
     return (
         <React.Fragment>
             <AlertDialog open={open} handleClose={handleClose} handleСonfirm={handleСonfirm}/>
-            <Container maxWidth="md" component="main">
+            <Container maxWidth="md" component="main" className={classes.main}>
+                <div className={classes.labHeader}>
+                    <Typography variant="h6" gutterBottom>
+                        Определение скорости звука в воздухе методом стоячих волн в трубе
+                    </Typography>
+                    <div className={classes.wrapper}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="outlined"
+                            onClick={handleCompleteWork}
+                            color="primary"
+                            // disabled={!isValid || (!isAutoSubmitting && isSubmitting)}
+                            className={classes.submit}
+                        >
+                            Complete the work
+                        </Button>
+                        {isCompleteTheWork && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                    </div>
+                </div>
+                <Divider/>
                 <Grid container className={classes.mainGrid} spacing={spacing} justify="center">
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={graphPaper}>

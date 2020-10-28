@@ -5,7 +5,7 @@ import {compose} from "redux";
 import LabPage from "./LabPage";
 import {
     decreaseCountAutoSubmitting,
-    setCountAutoSubmitting,
+    setCountAutoSubmitting, toggleCompleteTheWork,
     toggleIsAutoSubmitting, toggleIsCancelAutoSubmitting,
     toggleIsSubmitting
 } from "../redux/lab-reducer";
@@ -38,7 +38,8 @@ let mapStateToProps = (state) => {
         isSubmitting: state.lab.isSubmitting,
         isAutoSubmitting: state.lab.isAutoSubmitting,
         countAutoSubmitting: state.lab.countAutoSubmitting,
-        isCancelAutoSubmitting: state.lab.isCancelAutoSubmitting
+        isCancelAutoSubmitting: state.lab.isCancelAutoSubmitting,
+        isCompleteTheWork: state.lab.isCompleteTheWork,
     }
 }
 
@@ -49,7 +50,8 @@ export default compose(
             setCountAutoSubmitting,
             toggleIsAutoSubmitting,
             decreaseCountAutoSubmitting,
-            toggleIsCancelAutoSubmitting
+            toggleIsCancelAutoSubmitting,
+            toggleCompleteTheWork,
         }),
     withRouter
 )(LabPageContainer);

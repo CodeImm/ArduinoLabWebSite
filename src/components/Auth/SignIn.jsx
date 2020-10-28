@@ -44,7 +44,7 @@ export default function SignIn() {
     const {user, firebase} = React.useContext(FirebaseContext);
 
     if (user) {
-        return <Redirect from="/login" to="/"/>
+        return <Redirect from="/signin" to="/"/>
     }
 
     return (

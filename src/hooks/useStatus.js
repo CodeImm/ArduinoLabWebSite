@@ -9,7 +9,6 @@ function useStatus() {
     const {user} = React.useContext(FirebaseContext);
 
     React.useEffect(() => {
-        if(user) {
             labStatusRef.on('value', snapshot => {
                 // debugger
                 // const usersQueue = snapshot.child("currentUser").val();
@@ -17,9 +16,7 @@ function useStatus() {
                 setLoading(false);
             })
             return () => labStatusRef.off("value");
-        }else{
-            setLoading(false);
-        }
+
     }, []);
 
     return {loading, ...labStatus}
