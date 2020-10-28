@@ -15,6 +15,7 @@ import blue from "@material-ui/core/colors/blue";
 import {FirebaseContext} from "../firebase";
 import {useHistory, withRouter} from "react-router-dom";
 import {Redirect} from "react-router-dom";
+import LoginDialog from "./shared/LoginDialog";
 
 const useStyles = makeStyles((theme) => ({
         card: {
@@ -81,6 +82,28 @@ function CardExp2({history, ...props}) {
     // if (!user) {
     //     return <Redirect to="/"/>
     // }
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSignIn = () => {
+        setOpen(false);
+        history.push("/signin")
+    };
+
+    const handleSignUp = () => {
+        setOpen(false);
+        history.push("/signup")
+    };
+
+    // if (!user) {
+    //     return <Redirect to="/"/>
+    // }
 
     function handleStartBtnClick(){
         debugger;
@@ -127,6 +150,8 @@ function CardExp2({history, ...props}) {
 
     // debugger;
     return (
+        <React.Fragment>
+        <LoginDialog open={open} handleClose={handleClose} handleSignUp={handleSignUp} handleSignIn={handleSignIn}/>
         <Grid item xs={12} md={8}>
             <CardActionArea component="a" href="#">
                 <Card className={classes.card}>
@@ -157,7 +182,7 @@ function CardExp2({history, ...props}) {
                             {/*    Apparatus*/}
                             {/*</Button>*/}
                             <div className={classes.wrapper}>
-                                <Button onClick={handleStartBtnClick} size="small" color="primary" disabled={loading}>
+                                <Button onClick={user?handleStartBtnClick:handleClickOpen} size="small" color="primary" disabled={loading}>
                                     {(user && labStatus.currentUser == user.uid)
                                         ? 'Continue'
                                         : 'Run experiment'
@@ -171,46 +196,7 @@ function CardExp2({history, ...props}) {
                 </Card>
             </CardActionArea>
         </Grid>
-        // <Grid item xs={12} md={6}>
-        //     <Card className={classes.card}>
-        //         {/*<CardActionArea>*/}
-        //
-        //         <CardMedia
-        //             component="img"
-        //             className={classes.cover}
-        //             alt="Contemplative Reptile"
-        //             height="140"
-        //             image="https://source.unsplash.com/random"
-        //             title="Contemplative Reptile"
-        //         />
-        //         <div className={classes.cardDetails}>
-        //             <CardContent className={classes.content}>
-        //                 <Typography gutterBottom variant="h5" component="h2">
-        //                     {props.title}
-        //                 </Typography>
-        //                 <Typography variant="body2" color="textSecondary" component="p">
-        //                     {props.description}
-        //                 </Typography>
-        //             </CardContent>
-        //
-        //             {/*</CardActionArea>*/}
-        //             <CardActions className={classes.actions}>
-        //                 <Button size="small" color="primary">
-        //                     Theory
-        //                 </Button>
-        //                 <Button size="small" color="primary">
-        //                     Apparatus
-        //                 </Button>
-        //                 <Button size="small" color="primary">
-        //                     Test
-        //                 </Button>
-        //                 <Button size="small" color="primary">
-        //                     Run experiment
-        //                 </Button>
-        //             </CardActions>
-        //         </div>
-        //     </Card>
-        // </Grid>
+        </React.Fragment>
     );
 }
 export default withRouter(CardExp2);
