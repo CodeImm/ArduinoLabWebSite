@@ -81,14 +81,14 @@ export default function SignUp() {
                     }}
                     onSubmit={(values, {setSubmitting}) => {
                         const {firstName, lastName, faculty, group, email, password} = values;
-                        setTimeout(() => {
-                            // setSubmitting(false);
-                            alert(JSON.stringify(values, null, 2));
-                        }, 500);
-                        console.log(values);
+                        // setTimeout(() => {
+                        //     // setSubmitting(false);
+                        //     alert(JSON.stringify(values, null, 2));
+                        // }, 500);
+                        // console.log(values);
                         firebase.createUserWithEmailAndPassword(firstName, lastName, faculty, group, email, password).catch((error) => {
-                            console.log(error.code);
-                            console.log(error.message);
+                            // console.log(error.code);
+                            // console.log(error.message);
                             setSubmitting(false);
                             setFirebaseError(error.message);
                         });

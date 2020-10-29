@@ -132,6 +132,8 @@ function CardExp2({history, ...props}) {
                     })
                     history.push('/lab-1');
                     // window.location.href = "lab.html";
+                } else if (currentUser !== "null"){
+                    alert("Работа занята другим пользователем. Пожалуйста, попробуйте позже.")
                 }
                 // return () => statusRef.off("value");
             }, function (errorObject) {

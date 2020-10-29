@@ -100,7 +100,7 @@ export default function Header() {
                             Logout
                         </Button>
                         :
-                        <Button onClick={handleLoginClick} color="primary">Login</Button>
+                        <Button onClick={handleLoginClick} color="primary">Signin</Button>
                     }
                 </Toolbar>
             </AppBar>
