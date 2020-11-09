@@ -118,7 +118,7 @@ function CardExp2({history, ...props}) {
                     statusRef.update({
                         currentUser: user.uid,
                         chartId: chartId,
-                        isTimeOut: false,
+                        isTimeOut: "false",
                         power: "on",
                     })
 
@@ -127,7 +127,7 @@ function CardExp2({history, ...props}) {
                     // window.location.href = "lab.html";
                 } else if (currentUser === user.uid) {
                     statusRef.update({
-                        isTimeOut: false,
+                        isTimeOut: "false",
                         power: "on",
                     })
                     history.push('/lab-1');

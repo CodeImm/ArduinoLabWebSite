@@ -76,7 +76,7 @@ export default function PanelControl({
     function checkReadiness() {
         if (user) {
             isReadyRef.on("value", (snap) => {
-                if (snap.val() == true) {
+                if (snap.val() == "true") {
                     setIsReady(true);
                 }else{
                     setIsReady(false);
@@ -95,7 +95,7 @@ export default function PanelControl({
             try {
                 statusRef.update({
                     frequency: frequenciesArray[0],
-                    bpState: true,
+                    bpState: "true",
                 });
                 setFrequenciesArray(prevState => {
                     prevState.shift();
@@ -159,7 +159,7 @@ export default function PanelControl({
                         try {
                             statusRef.update({
                                 frequency: values.frequency,
-                                bpState: true,
+                                bpState: "true",
                             });
                         } catch (error) {
                             toggleIsSubmitting(false);

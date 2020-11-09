@@ -114,7 +114,7 @@ export default function LabPage({
     function checkTimeOut() {
         if (user) {
             isTimeOutRef.on("value", (snap) => {
-                if (snap.val() == true) {
+                if (snap.val() == "true") {
                    setIsTimeOut(true);
                 }
             })
@@ -237,11 +237,11 @@ export default function LabPage({
                 const currentUser = snapshot.val();
                 if (currentUser === user.uid) {
                     statusRef.update({
-                        bpState: false,
+                        bpState: "false",
                         currentUser: "null",
                         chartId: "null",
-                        isReady: false,
-                        isTimeOut: false,
+                        isReady: "false",
+                        isTimeOut: "false",
                         power: "off",
                     })
                     history.push('/');
