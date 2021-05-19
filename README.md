@@ -8,3 +8,5 @@ Install it and run:
 npm install
 npm start
 ```
+
+https://phys-labs.web.app Логин: test@test.ru Пароль: 123123
